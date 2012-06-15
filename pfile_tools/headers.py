@@ -2,7 +2,7 @@
 # Copyright (c) 2012, Board of Regents of the University of Wisconsin
 # Written by Nathan Vack <njvack@wisc.edu>
 #
-# Contains the ctypes Structure for a GE P-file header
+# Contains the ctypes Structure for a GE P-file header.
 
 from ctypes import *
 
