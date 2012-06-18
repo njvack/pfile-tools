@@ -5,9 +5,76 @@
 # Contains the ctypes Structure for a GE P-file header.
 
 from ctypes import *
+import datetime
+
+def REVISIONS():
+    return {
+        20: R20PfileHeader}
+
+
+class Pfile(object):
+    """
+    The wrapper class for all manner of pfile header readin' structs.
+    Really, only the one for now. Who knows, maybe ever?
+    """
+
+    def __init__(self, header, revision):
+        self.header = header
+        self.revision = revision
+        for f in self.header._fields_:
+            # Copy all the fields into this class.
+            name = f[0]
+            setattr(self, name, getattr(self.header, name))
+
+    @property
+    def exam_datetime(self):
+        return datetime.datetime.utcfromtimestamp(self.exam_timestamp)
+
+    @property
+    def series_datetime(self):
+        return datetime.datetime.utcfromtimestamp(self.series_timestamp)
+
+    @classmethod
+    def from_file(cls, infile, force_revision=None):
+        filelike = infile
+        if not hasattr('seek', filelike):
+            filelike = open(filelike, 'rb')
+        revision = force_revision or cls._major_revision(filelike)
+        filelike.seek(0)
+        rev_hash = REVISIONS()
+        header_cls = rev_hash.get(revision)
+        if header_cls is None:
+            raise UnknownRevision("No header found for revision %s" % revision)
+        header = header_cls()
+        filelike.readinto(header)
+        return cls(header, revision)
+
+    @classmethod
+    def _major_revision(cls, filelike):
+        rnh = RevisionNum()
+        filelike.seek(0)
+        filelike.readinto(rnh)
+        return rnh.major
+
+
+class UnknownRevision(RuntimeError):
+    pass
+
+
+class RevisionNum(LittleEndianStructure):
+
+    @property
+    def major(self):
+        return int(self.revision)
+
+    _pack_ = 1
+
+    _fields_ = [
+        ('revision', c_float)]
 
 
 class R20PfileHeader(LittleEndianStructure):
+
     _pack_ = 1
 
     _fields_ = [
@@ -224,3 +291,5 @@ class R20PfileHeader(LittleEndianStructure):
         ('pad_37', c_char * 115),
         ('long_coil_name', c_char * 24),
         ('pad_38', c_char * 543)]
+
+
