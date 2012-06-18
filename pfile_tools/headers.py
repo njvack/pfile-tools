@@ -7,6 +7,7 @@
 from ctypes import *
 import datetime
 
+
 def REVISIONS():
     return {
         20: R20PfileHeader}
@@ -291,5 +292,3 @@ class R20PfileHeader(LittleEndianStructure):
         ('pad_37', c_char * 115),
         ('long_coil_name', c_char * 24),
         ('pad_38', c_char * 543)]
-
-
