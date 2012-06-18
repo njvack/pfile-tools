@@ -13,8 +13,8 @@ class R20PfileHeader(LittleEndianStructure):
     _fields_ = [
         ('revision', c_float),
         ('pad_0', c_char * 12),
-        ('scan_date', c_char * 10),
-        ('scan_time', c_char * 8),
+        ('scan_date_str', c_char * 10),
+        ('scan_time_str', c_char * 8),
         ('pad_1', c_char * 30),
         ('pass_count', c_short),
         ('pad_2', c_char * 2),
