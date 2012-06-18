@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from distribute_setup import use_setuptools
 use_setuptools()
 from setuptools import setup
@@ -13,4 +14,9 @@ setup(
     packages=['pfile_tools',],
     license='BSD License',
     long_description=read('README.textile'),
+    entry_points = {
+        'console_scripts': [
+            'dump_pfile_header = pfile_tools.scripts.dump_pfile_header:main'
+        ]
+    }
 )
