@@ -1,3 +1,42 @@
-h1. pfile-tools
+h1. pfile-tools: GE P-File Utilities
 
-GE P-File Utilities
+This package provides a library refrence to GE's proprietary P-file format for their MR scanners. This is not a translation of their copyrighted header files, but a re-implementation. It's designed to let you catalog and anonymize your raw data, and hopefully provide enough information to run your own reconstruction.
+
+In addition to the library, pfile-tools provides small scripts to display pfile header values and do an anomymization.
+
+h2. Status
+
+Header support is limited to stuff we've needed in-house or stuff that's really obvious. If you need something added, let me know.
+
+Also, we currently only support reading revision 20 of the files. I suspect that it'll also effectively work on other revisions, but I don't know for sure which. Let me know!
+
+h2. Installation
+
+For now, it's:
+
+<pre>
+  $ git clone https://github.com/njvack/pfile-tools.git
+  $ cd pfile-tools
+  $ python setup.py install
+</pre>
+
+Installation via easy_install and pip is coming.
+
+h2. API Usage
+
+<pre>
+  >>> from pfile_tools import headers
+  >>> pfile = headers.Pfile.from_file('/path/to/PXXXX.7')
+  >>> print(pfile.revision)
+  20
+  >>> print(pfile.header.exam_number)
+  5313
+  >>> print(pfile.header.exam_datetime)
+  datetime(2012, 3, 6, 10, 47, 42)
+</pre>
+
+Pfile.header is a Python "ctypes Structure":http://docs.python.org/library/ctypes.html#ctypes.Structure.
+
+h2. dump_pfile_header
+
+Coming soon.
