@@ -39,4 +39,20 @@ Pfile.header is a Python "ctypes Structure":http://docs.python.org/library/ctype
 
 h2. dump_pfile_header
 
-Coming soon.
+Does what it says on the tin -- dumps a p-file's header to standard out, in a delimited (by default, tab-delimited) format.
+
+<pre>
+  Usage: dump_pfile_header [OPTIONS] pfile
+
+  Dumps header information from a GE P-file
+
+  Options:
+    -h, --help            show this help message and exit
+    -r REVISION, --revision=REVISION
+                          Force a header revision (available: 20)
+    --offsets             Show offsets to data elements
+    --sizes               Show data element sizes
+    --show-padding        Print unknown 'padding' elements
+    --separator=SEPARATOR
+                          Output field separator (default: \t)
+</pre>
