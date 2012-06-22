@@ -2,6 +2,7 @@
 
 import sys
 import optparse
+import csv
 
 from pfile_tools import headers, struct_utils
 
@@ -26,8 +27,27 @@ def build_option_parser():
     p.add_option(
         "--show-padding", action="store_true", default=False, dest="padding",
         help="Print unknown 'padding' elements")
+    p.add_option(
+        "--separator", action="store", default="\t",
+        help="Output field separator (default: \\t)")
     return p
 
+
+def header_columns(opts):
+    headers = ["field", "value"]
+    if opts.offsets:
+        headers.append("offset")
+    if opts.sizes:
+        headers.append("size")
+    return headers
+
+def to_list(info, opts):
+    out = [info.label, str(info.value)]
+    if opts.offsets:
+        out.append("%#x" % (info.offset))
+    if opts.sizes:
+        out.append(str(info.size))
+    return out
 
 def main():
     parser = build_option_parser()
@@ -39,15 +59,12 @@ def main():
         rev = int(rev)
     ph = headers.Pfile.from_file(args[0], force_revision=rev)
     dumped = struct_utils.dump_struct(ph.header)
+    writer = csv.writer(sys.stdout, delimiter=opts.separator)
+    writer.writerow(header_columns(opts))
     for info in dumped:
         if (info.label.find("pad") == 0) and not opts.padding:
             continue
-        s = "%s: %s" % (info.label, info.value)
-        if opts.offsets:
-            s += " offset: %#x" % (info.offset)
-        if opts.sizes:
-            s += " size: %s" % (info.size)
-        print(s)
+        writer.writerow(to_list(info, opts))
 
 
 if __name__ == "__main__":
