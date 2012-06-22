@@ -13,6 +13,10 @@ def REVISIONS():
         20: R20PfileHeader}
 
 
+def known_revisions():
+    return sorted(REVISIONS().keys())
+
+
 class Pfile(object):
     """
     The wrapper class for all manner of pfile header readin' structs.

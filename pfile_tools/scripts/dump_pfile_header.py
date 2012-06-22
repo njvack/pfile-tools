@@ -12,17 +12,13 @@ import csv
 from pfile_tools import headers, struct_utils
 
 
-def known_revisions():
-    return sorted(headers.REVISIONS().keys())
-
-
 def build_option_parser():
-    revision_opt_strs = ", ".join([str(r) for r in known_revisions()])
+    revision_opt_strs = ", ".join([str(r) for r in headers.known_revisions()])
     p = optparse.OptionParser(
         usage="usage: %prog [OPTIONS] pfile",
         description="Dumps header information from a GE P-file")
     p.add_option(
-        "-r", "--revision", action="store", choices=known_revisions(),
+        "-r", "--revision", action="store", choices=headers.known_revisions(),
         help="Force a header revision (available: %s)" % revision_opt_strs)
     p.add_option(
         "--offsets", action="store_true", default=False, dest="offsets",
