@@ -8,7 +8,7 @@ h2. Status
 
 Header support is limited to stuff we've needed in-house or stuff that's really obvious. If you need something added, let me know.
 
-Also, we currently only support reading revision 20 of the files. I suspect that it'll also effectively work on other revisions, but I don't know for sure which. Let me know!
+Also, we currently only support reading revision 20 of the files. I suspect that it'll also effectively work on other revisions (particularly 22), but I don't know for sure which. Let me know!
 
 h2. Installation
 
@@ -56,3 +56,33 @@ Does what it says on the tin -- dumps a p-file's header to standard out, in a de
     --separator=SEPARATOR
                           Output field separator (default: \t)
 </pre>
+
+h2. anonymize_pfile
+
+Strips personally-identifying information from a p-file.
+
+<pre>
+  Usage: anonymize_pfile.py [OPTIONS] pfile pfile_out
+
+  Removes personally-identifying information from a GE P-file
+
+  Options:
+    -h, --help            show this help message and exit
+    -r REVISION, --revision=REVISION
+                          Force a header revision (available: 20)
+    --inplace             Edit file in-place. Ignores pfile_out.
+    -v, --verbose         Print lots of extra debugging.
+
+    Anonymization options:
+      --name=yes/no       Set patient name to 'ANONYMIZED' (yes)
+      --id=yes/no         Set patient ID to 'ANONYMIZED' (yes)
+      --dateofbirth=yes/no
+                          Set date of birth to '' (yes)
+      --age=yes/no        Set age to 0 (yes)
+      --weight=yes/no     Set weight to 0 (yes)
+      --sex=yes/no        Set sex to 0 (yes)
+</pre>
+
+h2. License
+
+pfile_tools is provided under the short-and-sweet BSD license. See LICENSE.txt for more information.
