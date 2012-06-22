@@ -13,14 +13,14 @@ logger = logging.getLogger(__name__)
 AnonEntry = namedtuple("AnonEntry",
     ["key", "value", "option_name", "description"])
 
-# Note: option_name should be unique in the list.
+# Note: key and option_name should be unique in the list.
 DEFAULT_LIST = [
-    AnonEntry("patient_name", "ANONYMIZED", "name", "patient name"),
-    AnonEntry("patient_id", "ANONYMIZED", "id", "patient ID"),
-    AnonEntry("date_of_birth", "", "dateofbirth", "date of birth"),
-    AnonEntry("patient_age", 0, "age", "age"),
-    AnonEntry("patient_weight_g", 0, "weight", "weight"),
-    AnonEntry("patient_sex", 0, "sex", "sex"),
+    AnonEntry("patient_name",    "ANONYMIZED", "name",        "patient name"),
+    AnonEntry("patient_id",      "ANONYMIZED", "id",          "patient ID"),
+    AnonEntry("date_of_birth",    "",          "dateofbirth", "date of birth"),
+    AnonEntry("patient_age",      0,           "age",         "age"),
+    AnonEntry("patient_weight_g", 0,           "weight",      "weight"),
+    AnonEntry("patient_sex",      0,           "sex",         "sex"),
 ]
 
 
