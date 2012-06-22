@@ -1,10 +1,16 @@
 #!/usr/bin/env python
+# Part of the pfile-tools package
+# Copyright (c) 2012, Board of Regents of the University of Wisconsin
+# Written by Nathan Vack <njvack@wisc.edu>
+#
+# An executable script to dump the data from a p-file.
 
 import sys
 import optparse
 import csv
 
 from pfile_tools import headers, struct_utils
+
 
 def known_revisions():
     return sorted(headers.REVISIONS().keys())
@@ -41,6 +47,7 @@ def header_columns(opts):
         headers.append("size")
     return headers
 
+
 def to_list(info, opts):
     out = [info.label, str(info.value)]
     if opts.offsets:
@@ -48,6 +55,7 @@ def to_list(info, opts):
     if opts.sizes:
         out.append(str(info.size))
     return out
+
 
 def main():
     parser = build_option_parser()
