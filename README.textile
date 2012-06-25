@@ -12,15 +12,11 @@ Also, we currently only support reading revision 20 of the files. I suspect that
 
 h2. Installation
 
-For now, it's:
-
 <pre>
-  $ git clone https://github.com/njvack/pfile-tools.git
-  $ cd pfile-tools
-  $ python setup.py install
+  $ easy_install pfile_tools
 </pre>
 
-Installation via easy_install and pip is coming.
+(Or use pip if you're cool like that.)
 
 h2. API Usage
 
