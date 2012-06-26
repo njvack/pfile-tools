@@ -11,7 +11,7 @@ import shutil
 import logging
 logger = logging.getLogger(__name__)
 
-
+import pfile_tools
 from pfile_tools import headers, anonymizer
 
 
@@ -19,7 +19,8 @@ def build_option_parser(anonymization_list):
     revision_opt_strs = ", ".join([str(r) for r in headers.known_revisions()])
     p = optparse.OptionParser(
         usage="usage: %prog [OPTIONS] pfile pfile_out",
-        description="Removes personally-identifying information from a GE P-file")
+        description="Removes personally-identifying information from a GE P-file",
+        version="%prog "+pfile_tools.VERSION)
     p.add_option(
         "-r", "--revision", action="store", choices=headers.known_revisions(),
         help="Force a header revision (available: %s)" % revision_opt_strs)
