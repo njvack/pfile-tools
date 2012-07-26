@@ -3,6 +3,7 @@
 # Packages
 *.egg
 *.egg-info
+*.gz
 dist
 build
 eggs
@@ -25,3 +26,6 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+# OS X crap
+.DS_Store
