@@ -69,8 +69,6 @@ def setup_files(options, args):
 
 def read_pfile(pfile_in, options):
     rev = options.revision
-    if rev is not None:
-        rev = int(rev)
     logger.debug("Reading %s, revision %s" % (pfile_in, rev))
     return headers.Pfile.from_file(pfile_in, force_revision=rev)
 

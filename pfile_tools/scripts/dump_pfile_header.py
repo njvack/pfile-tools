@@ -61,8 +61,6 @@ def main():
     if len(args) < 1:
         parser.error("Must specify a p-file.")
     rev = opts.revision
-    if rev is not None:
-        rev = int(rev)
     ph = headers.Pfile.from_file(args[0], force_revision=rev)
     dumped = struct_utils.dump_struct(ph.header)
     writer = csv.writer(sys.stdout, delimiter=opts.separator)
