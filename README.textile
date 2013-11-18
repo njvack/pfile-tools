@@ -85,6 +85,15 @@ pfile_tools is provided under the short-and-sweet BSD license. See LICENSE.txt f
 
 h2. Changes
 
-0.2.0: Detect version number differently -- now we're interpreting the first four bytes as a short representing version number, as opposed to using the first eight bytes as a float, which always seemed really strange anyhow. The downside is that the numbers don't seem to be what anyone calls the software revision. Sigh. Anyhow, this also handles pfiles written by the newest and greatest GE software; there were a couple of 8-byte padding shifts.
+h3. 0.3.0:
 
-0.1.3: Started tracking changes. This version worked, more or less.
+* Revamp, again, the version number detection code. It's the first *four* bytes, and it is indeed a float. Because, reasons. Fie on Python for its automatic conversion of floats to doubles. FIE. ON. YOU.
+* Add support for revision 16 files.
+
+h3. 0.2.0:
+
+* Detect version number differently -- now we're interpreting the first four bytes as a short representing version number, as opposed to using the first eight bytes as a float, which always seemed really strange anyhow. The downside is that the numbers don't seem to be what anyone calls the software revision. Sigh. Anyhow, this also handles pfiles written by the newest and greatest GE software; there were a couple of 8-byte padding shifts.
+
+h3. 0.1.3:
+
+* Started tracking changes. This version worked, more or less.
