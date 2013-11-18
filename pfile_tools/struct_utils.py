@@ -48,11 +48,10 @@ def _dump_struct_rec(
             output.append(StructInfo(
                 label, depth, field, field_type.__name__, field_meta.size, field_offset))
 
+
 def set_struct_value(struct, field_name, value):
     """
-    Sets a value in a ctypes struct, by dotted struct name. Example:
-    set_header_value(header, "rdb_hdr_exam.patnameff", "foo")
-    will set header.rdb_hdr_exam.patnaneff = "foo"
+    Sets a value in a ctypes struct, by dotted struct name
     """
     parts = field_name.split(".")
     sh = struct
@@ -63,3 +62,13 @@ def set_struct_value(struct, field_name, value):
     setattr(sh, parts[0], value)
 
 
+def has_struct_value(struct, field_name):
+    parts = field_name.split(".")
+    sh = struct
+    while len(parts) > 1:
+        subhead_key = parts[0]
+        parts = parts[1:]
+        if not hasattr(sh, subhead_key):
+            return False
+        sh = getattr(sh, subhead_key)
+    return hasattr(sh, field_name)
