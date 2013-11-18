@@ -10,13 +10,21 @@ import datetime
 
 def REVISIONS():
     return {
-        3146: R3146PfileHeader,
-        3670: R3670PfileHeader
+        '16'    : R16PfileHeader,
+        '20.006': R20_006PfileHeader,
+        '20.007': R20_007PfileHeader
     }
 
 
+def format_short_float(f):
+    """
+    Formats 16.00 to 16 and 20.006000 to 20.006
+    """
+    return ("%.5f" % f).rstrip("0").rstrip(".")
+
+
 def known_revisions():
-    return [str(x) for x in sorted(REVISIONS().keys())]
+    return [x for x in sorted(REVISIONS().keys())]
 
 
 class Pfile(object):
@@ -46,7 +54,7 @@ class Pfile(object):
         filelike = infile
         if not hasattr('seek', filelike):
             filelike = open(filelike, 'rb')
-        revision = force_revision or cls._major_revision(filelike)
+        revision = force_revision or format_short_float(cls._major_revision(filelike))
         filelike.seek(0)
         rev_hash = REVISIONS()
         header_cls = rev_hash.get(revision)
@@ -61,7 +69,7 @@ class Pfile(object):
         rnh = RevisionNum()
         filelike.seek(0)
         filelike.readinto(rnh)
-        return rnh.major
+        return rnh.revision
 
 
 class UnknownRevision(RuntimeError):
@@ -70,23 +78,229 @@ class UnknownRevision(RuntimeError):
 
 class RevisionNum(LittleEndianStructure):
 
-    @property
-    def major(self):
-        return int(self.revision)
+    _pack_ = 1
+
+    _fields_ = [
+        ('revision', c_float)]
+
+
+class R16PfileHeader(LittleEndianStructure):
 
     _pack_ = 1
 
     _fields_ = [
-        ('revision', c_short)]
+        ('revision', c_float),
+        ('pad_0', c_char * 12),
+        ('scan_date_str', c_char * 10),
+        ('scan_time_str', c_char * 8),
+        ('pad_1', c_char * 30),
+        ('pass_count', c_short),
+        ('pad_2', c_char * 2),
+        ('slice_count', c_ushort),
+        ('echo_count', c_short),
+        ('pad_3', c_char * 2),
+        ('frame_count', c_short),
+        ('pad_4', c_char * 4),
+        ('frame_size', c_ushort),
+        ('pad_5', c_char * 20),
+        ('acq_x_res', c_ushort),
+        ('acq_y_Res', c_short),
+        ('recon_x_res', c_short),
+        ('recon_y_res', c_short),
+        ('image_size', c_short),
+        ('recon_z_res', c_int),
+        ('pad_6', c_char * 100),
+        ('rh_user_0', c_float),
+        ('rh_user_1', c_float),
+        ('rh_user_2', c_float),
+        ('rh_user_3', c_float),
+        ('rh_user_4', c_float),
+        ('rh_user_5', c_float),
+        ('rh_user_6', c_float),
+        ('rh_user_7', c_float),
+        ('rh_user_8', c_float),
+        ('rh_user_9', c_float),
+        ('rh_user_10', c_float),
+        ('rh_user_11', c_float),
+        ('rh_user_12', c_float),
+        ('rh_user_13', c_float),
+        ('rh_user_14', c_float),
+        ('rh_user_15', c_float),
+        ('rh_user_16', c_float),
+        ('rh_user_17', c_float),
+        ('rh_user_18', c_float),
+        ('rh_user_19', c_float),
+        ('pad_7', c_char * 704),
+        ('rh_user_20', c_float),
+        ('rh_user_21', c_float),
+        ('rh_user_22', c_float),
+        ('rh_user_23', c_float),
+        ('rh_user_24', c_float),
+        ('rh_user_25', c_float),
+        ('rh_user_26', c_float),
+        ('rh_user_27', c_float),
+        ('rh_user_28', c_float),
+        ('rh_user_29', c_float),
+        ('rh_user_30', c_float),
+        ('rh_user_31', c_float),
+        ('rh_user_32', c_float),
+        ('rh_user_33', c_float),
+        ('rh_user_34', c_float),
+        ('rh_user_35', c_float),
+        ('rh_user_36', c_float),
+        ('rh_user_37', c_float),
+        ('rh_user_38', c_float),
+        ('rh_user_39', c_float),
+        ('rh_user_40', c_float),
+        ('rh_user_41', c_float),
+        ('rh_user_42', c_float),
+        ('rh_user_43', c_float),
+        ('rh_user_44', c_float),
+        ('rh_user_45', c_float),
+        ('rh_user_46', c_float),
+        ('rh_user_47', c_float),
+        ('rh_user_48', c_float),
+        ('pad_8', c_char * 528),
+        ('bandwidth', c_float),
+        ('pad_9', c_char * 12),
+        ('data_size', c_ulong),
+        ('ssp_save', c_ulong),
+        ('uda_save', c_ulong),
+        ('pad_10', c_char * 137214),
+        ('aps_r1', c_int),
+        ('aps_r2', c_int),
+        ('aps_tg', c_int),
+        ('aps_frequency', c_uint),
+        ('scale_i', c_float),
+        ('scale_q', c_float),
+        ('pad_11', c_char * 276),
+        ('x_shim', c_short),
+        ('y_shim', c_short),
+        ('z_shim', c_short),
+        ('recon_enabled', c_short),
+        ('pad_12', c_char * 1774),
+        ('magnet_strength', c_int),
+        ('patient_weight_g', c_int),
+        ('exam_timestamp', c_int),
+        ('pad_13', c_char * 52),
+        ('exam_number', c_ushort),
+        ('pad_14', c_char * 18),
+        ('patient_age', c_short),
+        ('pad_15', c_char * 2),
+        ('patient_sex', c_short),
+        ('pad_16', c_char * 2),
+        ('patient_trauma', c_short),
+        ('pad_17', c_char * 2),
+        ('study_status', c_short),
+        ('pad_18', c_char * 166),
+        ('exam_description', c_char * 65),
+        ('exam_type', c_char * 3),
+        ('system_id', c_char * 9),
+        ('pad_20', c_char * 14),
+        ('hospital_name', c_char * 33),
+        ('patient_id_2', c_char * 13),
+        ('patient_name_2', c_char * 25),
+        ('service_id', c_char * 16),
+        ('pad_22', c_char * 124),
+        ('patient_name', c_char * 65),
+        ('patient_id', c_char * 65),
+        ('req_num', c_char * 17),
+        ('date_of_birth', c_char * 9),
+        ('pad_23', c_char * 492),
+        ('series_number', c_short),
+        ('pad_26', c_char * 122),
+        ('series_description', c_char * 65),
+        ('pad_27', c_char * 21),
+        ('protocol', c_char * 25),
+        ('start_ras', c_char),
+        ('end_ras', c_char),
+        ('pad_28', c_char * 1541),
+        ('x_field_of_view', c_float),
+        ('y_field_of_view', c_float),
+        ('scan_duration', c_float),
+        ('z_thickness', c_float),
+        ('pad_29', c_char * 36),
+        ('op_user_0', c_float),
+        ('op_user_1', c_float),
+        ('op_user_2', c_float),
+        ('op_user_3', c_float),
+        ('op_user_4', c_float),
+        ('op_user_5', c_float),
+        ('op_user_6', c_float),
+        ('op_user_7', c_float),
+        ('op_user_8', c_float),
+        ('op_user_9', c_float),
+        ('op_user_10', c_float),
+        ('op_user_11', c_float),
+        ('op_user_12', c_float),
+        ('op_user_13', c_float),
+        ('op_user_14', c_float),
+        ('op_user_15', c_float),
+        ('op_user_16', c_float),
+        ('op_user_17', c_float),
+        ('op_user_18', c_float),
+        ('op_user_19', c_float),
+        ('op_user_20', c_float),
+        ('op_user_21', c_float),
+        ('op_user_22', c_float),
+        ('pad_30', c_char * 8),
+        ('op_user_23', c_float),
+        ('op_user_24', c_float),
+        ('pad_31', c_char * 60),
+        ('op_user_25', c_float),
+        ('op_user_26', c_float),
+        ('op_user_27', c_float),
+        ('op_user_28', c_float),
+        ('op_user_29', c_float),
+        ('op_user_30', c_float),
+        ('op_user_31', c_float),
+        ('op_user_32', c_float),
+        ('op_user_33', c_float),
+        ('op_user_34', c_float),
+        ('op_user_35', c_float),
+        ('op_user_36', c_float),
+        ('op_user_37', c_float),
+        ('op_user_38', c_float),
+        ('op_user_39', c_float),
+        ('op_user_40', c_float),
+        ('op_user_41', c_float),
+        ('op_user_42', c_float),
+        ('op_user_43', c_float),
+        ('op_user_44', c_float),
+        ('op_user_45', c_float),
+        ('op_user_46', c_float),
+        ('op_user_47', c_float),
+        ('op_user_48', c_float),
+        ('pad_32', c_char * 60),
+        ('x_dim', c_float),
+        ('y_dim', c_float),
+        ('x_size', c_float),
+        ('y_size', c_float),
+        ('r_center', c_float),
+        ('a_center', c_float),
+        ('s_center', c_float),
+        ('r_norm', c_float),
+        ('a_norm', c_float),
+        ('s_norm', c_float),
+        ('pad_33', c_char * 232),
+        ('tr', c_int),
+        ('ti', c_int),
+        ('te', c_int),
+        ('pad_34', c_char * 548),
+        ('psd_name', c_char * 33),
+        ('pad_36', c_char * 84),
+        ('coil_name', c_char * 17),
+        ('pad_37', c_char * 115),
+        ('long_coil_name', c_char * 24)]
 
 
-class R3146PfileHeader(LittleEndianStructure):
+class R20_006PfileHeader(LittleEndianStructure):
 
     _pack_ = 1
 
     _fields_ = [
-        ('revision', c_short),
-        ('pad_0', c_char * 14),
+        ('revision', c_float),
+        ('pad_0', c_char * 12),
         ('scan_date_str', c_char * 10),
         ('scan_time_str', c_char * 8),
         ('pad_1', c_char * 30),
@@ -298,13 +512,13 @@ class R3146PfileHeader(LittleEndianStructure):
         ('long_coil_name', c_char * 24),
         ('pad_38', c_char * 543)]
 
-class R3670PfileHeader(LittleEndianStructure):
+class R20_007PfileHeader(LittleEndianStructure):
 
     _pack_ = 1
 
     _fields_ = [
-        ('revision', c_short),
-        ('pad_0', c_char * 14),
+        ('revision', c_float),
+        ('pad_0', c_char * 12),
         ('scan_date_str', c_char * 10),
         ('scan_time_str', c_char * 8),
         ('pad_1', c_char * 30),
