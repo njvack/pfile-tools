@@ -12,7 +12,8 @@ def REVISIONS():
     return {
         '16'    : R16PfileHeader,
         '20.006': R20_006PfileHeader,
-        '20.007': R20_007PfileHeader
+        '20.007': R20_007PfileHeader,
+        '24'    : R20_007PfileHeader,
     }
 
 
