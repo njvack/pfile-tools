@@ -59,6 +59,10 @@ def set_struct_value(struct, field_name, value):
         subhead_key = parts[0]
         parts = parts[1:]
         sh = getattr(sh, subhead_key)
+    # clear the field completely before setting it
+    field = getattr(type(sh), parts[0])
+    dummy = ctypes.c_char*field.size
+    dummy.from_buffer(sh, field.offset).raw = b'\0'*field.size
     setattr(sh, parts[0], value)
 
 
