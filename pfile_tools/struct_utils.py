@@ -38,6 +38,13 @@ def _dump_struct_rec(
         field_type = f[1]
         field_meta = getattr(struct_class, name)
         field = getattr(struct, name)
+        if type(field) == type(b''):
+            # replace null bytes with '@' to make them visible
+            a = getattr(type(struct), name)
+            dummy = ctypes.c_char*a.size
+            field = dummy.from_buffer(struct, a.offset).raw
+            field = field.rstrip('\0')
+            field = field.replace('\0', '@')
         cur_prefix = "%s%s." % (prefix, name)
         field_offset = base_offset + field_meta.offset
         if isinstance(field, ctypes.Structure):
