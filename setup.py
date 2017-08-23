@@ -6,7 +6,7 @@ from setuptools import setup
 
 setup(
     name='pfile-tools',
-    version='0.3.2',
+    version='0.4.0',
     author='Nathan Vack',
     author_email='njvack@wisc.edu',
     license='BSD License',
