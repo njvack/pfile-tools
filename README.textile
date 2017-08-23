@@ -85,6 +85,14 @@ pfile_tools is provided under the short-and-sweet BSD license. See LICENSE.txt f
 
 h2. Changes
 
+h3. 0.5.0:
+
+Thanks to "dgobbi":https://github.com/dgobbi we now properly anonymize fields where the previous value was longer than the anonymized value.
+
+h3. 0.4.0:
+
+* Add experimental support for revision 26.002
+
 h3. 0.3.0:
 
 * Revamp, again, the version number detection code. It's the first *four* bytes, and it is indeed a float. Because, reasons. Fie on Python for its automatic conversion of floats to doubles. FIE. ON. YOU.
