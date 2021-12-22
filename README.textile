@@ -1,5 +1,11 @@
 h1. pfile-tools: GE P-File Utilities
 
+h2. This package is no longer maintained
+
+Hey folks, I don't have the resources to keep this package up to date with software changes. It won't work with modern GE software. Feel free to fork and change this as you see fit.
+
+h2. Overview
+
 This package provides a library refrence to GE's proprietary P-file format for their MR scanners. This is not a translation of their copyrighted header files, but a re-implementation. It's designed to let you catalog and anonymize your raw data, and hopefully provide enough information to run your own reconstruction.
 
 In addition to the library, pfile-tools provides small scripts to display pfile header values and do an anomymization.
